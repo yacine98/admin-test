@@ -1,0 +1,222 @@
+{
+  "role": "admin",
+  "homePage": "/dashboard",
+  "menuItems": [
+    {
+      "icon": "mdi-account-group-outline",
+      "href": "/utilisateurs",
+      "title": "Utilisateurs",
+      "name": "manage-users"
+    },
+    {
+      "icon": "mdi-account-lock-outline",
+      "href": "/roles",
+      "title": "Rôles",
+      "name": "manage-roles"
+    },
+    {
+      "icon": "mdi-security",
+      "href": "/permissions",
+      "title": "Permissions",
+      "name": "manage-permissions"
+    },
+    {
+      "icon": "mdi-cursor-default-outline",
+      "href": "/actions",
+      "title": "Actions",
+      "name": "manage-workflow"
+    },
+    {
+      "icon": "mdi-tag-multiple-outline",
+      "href": "/statuts",
+      "title": "Statuts",
+      "name": "manage-workflow"
+    },
+    {
+      "icon": "mdi-tag-multiple-outline",
+      "href": "/bannettes",
+      "title": "Bannettes",
+      "name": "manage-workflow"
+    },
+    {
+      "icon": "mdi-newspaper-variant-outline",
+      "href": "/pages",
+      "title": "Pages",
+      "name": "manage-template"
+    },
+    {
+      "icon": "mdi-focus-field-horizontal",
+      "href": "/sections",
+      "title": "Sections",
+      "name": "manage-template"
+    },
+    {
+      "icon": "mdi-note-text-outline",
+      "href": "/elements",
+      "title": "Éléments",
+      "name": "manage-template"
+    },
+    {
+      "icon": "mdi-calendar",
+      "href": "/annees",
+      "title": "Années",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-home-modern",
+      "href": "/structures",
+      "title": "Structures",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-file-tree-outline",
+      "href": "/secteurs",
+      "title": "Secteurs",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-code-tags",
+      "href": "/categories",
+      "title": "Catégories",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-format-list-bulleted-type",
+      "href": "/typeindicateurs",
+      "title": "Types d'indicateurs",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-soundcloud",
+      "href": "/gazs",
+      "title": "Gaz",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-fuel",
+      "href": "/combustibles",
+      "title": "Combustibles",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-format-list-bulleted-type",
+      "href": "/typecombustibles",
+      "title": "Types de combustible",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-format-list-checks",
+      "href": "/scenarios",
+      "title": "Scénarios",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-camera-iris",
+      "href": "/technologies",
+      "title": "Technologies",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-bag-checked",
+      "href": "/bailleurs",
+      "title": "Bailleurs",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-vanity-light",
+      "href": "/unites",
+      "title": "Unités",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-office-building",
+      "href": "/typeinstruments",
+      "title": "Types d'instrument",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-step-forward",
+      "href": "/etats",
+      "title": "Situations de projet",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-plus-circle-multiple-outline",
+      "href": "/politiques",
+      "title": "Politiques ou Mesures",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-weather-hail",
+      "href": "/indicateurs",
+      "title": "Indicateurs",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-chart-timeline",
+      "href": "/typesoutiens",
+      "title": "Types de soutien",
+      "name": "manage-mnv-inputs"
+    },
+        {
+      "icon": "mdi-format-list-checks",
+      "href": "/typeappuis",
+      "title": "Types d'appui",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-usb",
+      "href": "/typecontributions",
+      "title": "Types de contribution",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-crosshairs-gps",
+      "href": "/districts",
+      "title": "Districts",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-crosshairs-gps",
+      "href": "/regions",
+      "title": "Régions",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-crosshairs-gps",
+      "href": "/departements",
+      "title": "Départements",
+      "name": "manage-mnv-inputs"
+    },
+    {
+      "icon": "mdi-view-agenda",
+      "href": "/agendas",
+      "title": "Agenda",
+      "name": "manage-posts"
+    },
+    {
+      "icon": "mdi-newspaper",
+      "href": "/actualites",
+      "title": "Actualités",
+      "name": "manage-posts"
+    },
+    {
+      "icon": "mdi-file-multiple",
+      "href": "/ressources",
+      "title": "Ressources",
+      "name": "manage-posts"
+    },
+     {
+      "icon": "mdi-download-network",
+      "href": "/partenaires",
+      "title": "Partenaires",
+      "name": "manage-posts"
+    },
+       {
+      "icon": "mdi-step-forward",
+      "href": "/frontprojets",
+      "title": "Projets (vitrine)",
+      "name": "manage-mnv-inputs"
+    }
+  ]
+}

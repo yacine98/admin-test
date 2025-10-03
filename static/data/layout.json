@@ -1,0 +1,34 @@
+{
+  "role": "admin",
+  "homePage": "/dashboard",
+    "menuItems": [
+      {
+        "icon": "mdi-chart-bar",
+        "href": "/dashboard",
+        "title": "Tableau de bord",
+        "name": "manage-dashboard",
+        "focus":true
+      },
+      {
+        "icon": "mdi-database-plus",
+        "href": "/projets/addProjet",
+        "title": "Nouvelle action",
+        "name": "manage-collects"
+      },
+ 
+      {
+        "icon": "mdi-database-plus",
+        "href": "/soutiens/addSoutien",
+        "title": "Nouveau soutien",
+        "name": "manage-collects"
+      },
+      {
+        "icon": "mdi-cog-outline",
+        "href": "/parametres",
+        "title": "Paramétrage",
+        "name": "manage-parameters",
+        "focus":true
+      }
+    ]
+  
+}
