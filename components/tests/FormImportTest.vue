@@ -114,17 +114,29 @@ export default {
           const row = this.listdonneetests[i]
 
           // Construction du payload à insérer
+          // Recherche de la classe dans Supabase
+          const { data: classeData, error: classeError } = await supabase
+            .from('classes')
+            .select('id')
+            .eq('libelle', row.classe)
+            .single()
+
+          if (classeError || !classeData) {
+            console.warn(`Classe introuvable pour "${row.classe}" à la ligne ${i + 1}`)
+            continue // ignore cette ligne si la classe n'existe pas
+          }
+
           const payload = {
             ien: row.ien || '',
             prenom: row.prenom || '',
             nom: row.nom || '',
             sexe: row.sexe || '',
             date_naissance: row.date_naissance || '',
-            lieu_naissance: row.lieu_naissance  || '',
+            lieu_naissance: row.lieu_naissance || '',
             classe: row.classe || '',
-            
-        
+            classe_id: classeData.id, // ajout de l’ID trouvé
           }
+
 
           const { error } = await supabase.from('eleves').insert(payload)
 
