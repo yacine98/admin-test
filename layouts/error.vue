@@ -7,9 +7,9 @@
             <v-card flat class="elevation-0 pl-5 pr-5 pt-0 pb-0">
               <v-card-text>
                 <div class="layout column align-center py-5">
-                  <img v-if="error.statusCode === 404" src="@/static/404.png" alt="MNV CÔTE D'IVOIRE" width="600" height="">
+                  <img v-if="error.statusCode === 404" src="@/static/404.png" alt="PLATEFORME DE GESTION DES INSCRIPTIONS" width="600" height="">
                   <div v-else  class="layout column align-center py-5">
-                    <img  src="@/static/error.png" alt="MNV CÔTE D'IVOIRE" width="100" height="">
+                    <img  src="@/static/error.png" alt="PLATEFORME DE GESTION DES INSCRIPTIONS" width="100" height="">
                     <v-spacer></v-spacer>
                     <p>
                       {{ otherError }}
@@ -38,7 +38,7 @@ export default {
   data () {
     return {
       pageNotFound: '404 Page Introuvable',
-      otherError: ('Erreur '+this.error.statusCode)+' '+(this.$hasRole('admin')?this.error.message:'')
+      otherError: ('Erreur '+this.error.statusCode)+' '+(this.error.message)
     }
   },
   head () {

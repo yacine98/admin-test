@@ -1,0 +1,52 @@
+<template>
+  <div>
+    <div class="custom-container bg-title-grey">
+      <page-header :items="headerItems" class=""></page-header>
+    </div>
+    <div class="custom-container">
+        <form-import-test></form-import-test>
+    </div>
+    <div class="custom-container">
+        <list-donnee-test></list-donnee-test>
+    </div>
+  </div>
+    
+    
+</template>
+
+<script>
+import PageHeader from '@/components/PageHeader';
+import FormImportTest from '@/components/suivitests/FormImportTest';
+import ListDonneeTest from '@/components/suivitests/ListDonneeTest';
+export default {
+  layout: "dashboard",
+  components: {
+    PageHeader,
+    FormImportTest,
+    ListDonneeTest,
+  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-collects')) {
+  //     return redirect('/')
+  //   }
+  // },
+  data() {
+    return {
+      headerItems: [
+        {
+          text: 'Données tests',
+          disabled: false,
+          to: '/suivitests',
+          exact: true
+        },
+        {
+          text: 'Importation',
+          disabled: true,
+        }
+
+      ],
+    }
+  }
+
+}
+</script>

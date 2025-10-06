@@ -4,9 +4,9 @@
       <!-- Contenu du formulaire -->
       <div class="py-6 custom-padding" flat>
         <div class="d-flex justify-center">
-          <img class="white--text mt-6 mb-6 pa-6" width="60%" src="@/static/logo-mnv.png">
+          <img class="white--text mt-6 mb-6 pa-6" width="60%" src="@/static/logo-plateforme.png">
         </div>
-        <h3 class="text-center custom-title pa-6 mt-6">PLATEFORME MNV SECTEUR ÉNERGIE <br> CÔTE D'IVOIRE</h3>
+        <h3 class="text-center custom-title pa-6 mt-6">PLATEFORME DE GESTION <br> DES INSCRIPTIONS</h3>
         <div class="pa-6 mb-6">
           <v-form class="row text-align-center py-4" ref="form">
             <v-text-field color="secondary" outlined class="custom-text-field col-md-12 pl-4 pr-4 pt-0"
@@ -105,27 +105,20 @@ export default {
     togglePasswordVisibility() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     },
-    async login() {
-      this.loading = true;
-      let validation = this.$refs.form.validate();
-      if (!validation) {
-        this.loading = false;
-      }
-      validation && await this.$axios.post('login', {
-        username: this.model.username,
-        password: this.model.password
-      }).then(async (response) => {
-        await localStorage.setItem('mrvciToken', response.data.token);
-        await localStorage.setItem('loggedInUser', JSON.stringify(response.data.user));
-        await localStorage.setItem('isAuthenticated', true);
-        this.$router.push('/dashboard');
-      }).
-        catch((error) => {
-          this.$store.dispatch('toast/getMessage', { type: 'error', text: error?.message || 'Échec de la connexion' });
-        }).finally(() => {
-          this.loading = false;
-        });
-    }
+async login() {
+  this.loading = true;
+
+  // Optionnel : valider le formulaire
+  const validation = this.$refs.form.validate();
+  if (!validation) {
+    this.loading = false;
+    return;
+  }
+
+  // Redirection directe sans vérification
+  this.$router.push('/tests');
+  this.loading = false;
+}
   }
 }
 </script>

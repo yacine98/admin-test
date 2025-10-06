@@ -31,11 +31,11 @@ export default {
     InfoPermission,
     ActionsPermission
   },
-  middleware: function ({ redirect, $hasPermission }) {
-    if (!$hasPermission('manage-parameters')) {
-      return redirect('/')
-    }
-  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-parameters')) {
+  //     return redirect('/')
+  //   }
+  // },
   data() {
     return {
       headerItems: [

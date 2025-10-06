@@ -20,11 +20,11 @@ export default {
     PageHeader,
     FormAddPermission
   },
-  middleware: function ({ redirect, $hasPermission }) {
-    if (!$hasPermission('manage-parameters')) {
-      return redirect('/')
-    }
-  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-parameters')) {
+  //     return redirect('/')
+  //   }
+  // },
   data() {
     return {
       headerItems: [

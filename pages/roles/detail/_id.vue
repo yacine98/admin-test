@@ -31,11 +31,11 @@ import ActionsRole from '@/components/roles/detail/ActionsRole';
       InfoRole,
       ActionsRole
     },
-    middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('manage-parameters')){
-        return redirect('/')
-      }
-    },
+    // middleware: function ({redirect,$hasPermission}) {
+    //   if(!$hasPermission('manage-parameters')){
+    //     return redirect('/')
+    //   }
+    // },
     data () {
       return {
         headerItems: [

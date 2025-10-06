@@ -36,13 +36,13 @@ export default {
     return {
       headerItems: [
         {
-          text: 'Activités',
+          text: 'Élèves',
           disabled: false,
           to: '/tests',
           exact: true
         },
         {
-          text: 'Détail activité',
+          text: 'Fiche élève',
           disabled: true,
           exact: true
         }

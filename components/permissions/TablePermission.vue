@@ -62,7 +62,7 @@
                   <v-icon small class="mr-2"> mdi-pencil-outline </v-icon>Modifier
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item v-if="$hasRole('super_admin')" @click="opendialog(item)"
+              <v-list-item @click="opendialog(item)"
                 class="custom-v-list-action pl-2 pr-1">
                 <v-list-item-title>
                   <v-icon small class="mr-2">

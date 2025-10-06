@@ -34,9 +34,9 @@ export default {
     InfoUtilisateur,
     ActionsUtilisateur
   },
-  middleware: function ({ redirect, $hasPermission, $getUser }) {
+  // middleware: function ({ redirect, $hasPermission, $getUser }) {
 
-  },
+  // },
   data() {
     return {
       tab:'',

@@ -26,9 +26,9 @@ export default {
     PageHeader,
     FormUpdateUser
   },
-  middleware: function ({ redirect, $hasPermission, $getUser }) {
+  // middleware: function ({ redirect, $hasPermission, $getUser }) {
 
-  },
+  // },
   mounted: function () {
     this.$store.dispatch('roles/getList')
   },

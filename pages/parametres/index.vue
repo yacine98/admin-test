@@ -27,11 +27,11 @@
 <script>
 export default {
   layout: "dashboard",
-  middleware: function ({ redirect, $hasPermission }) {
-    if (!$hasPermission('manage-parameters')) {
-      return redirect('/')
-    }
-  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-parameters')) {
+  //     return redirect('/')
+  //   }
+  // },
   components: {
   },
   mounted: function () {

@@ -7,6 +7,17 @@ export default function ({ store, redirect }, inject) {
     }
 
     const getUser = () => {
+        const fakeUser = {
+            firstname: "Yacine",
+            lastname: "Dia",
+            id: "123456",
+            email: "yacine.dia@example.com",
+            token: "abc123xyz789"
+        };
+
+        // Stocker l'utilisateur fictif dans le localStorage
+        localStorage.setItem('loggedInUser', JSON.stringify(fakeUser));
+
         return JSON.parse(localStorage.getItem('loggedInUser'));
     }
 
@@ -29,8 +40,8 @@ export default function ({ store, redirect }, inject) {
         let layoutPrincipal = layout.menuItems
         let menu = []
         layoutPrincipal?.map((item) => {
-            if (hasPermission(item.name))
-                menu = [...menu, item]
+            // if (hasPermission(item.name))
+            menu = [...menu, item]
         })
         return menu
     }
@@ -39,8 +50,8 @@ export default function ({ store, redirect }, inject) {
         let layoutPrincipal = layoutadmin.menuItems
         let menu = []
         layoutPrincipal?.map((item) => {
-            if (hasPermission(item.name))
-                menu = [...menu, item]
+            // if (hasPermission(item.name))
+            menu = [...menu, item]
         })
 
         return menu
@@ -49,29 +60,31 @@ export default function ({ store, redirect }, inject) {
         const libelles = {
 
             'date_debut': 'Date de début',
+            'true': 'Oui',
+            'false': 'Non',
 
         };
 
         return libelles[key] || key;
     };
 
-    const hasPermission = (permission_name) => {
-        let permissions = getUserPermissions()
-        let checkpermission = permissions?.filter(item => item.name === permission_name).length;
-        if (checkpermission == 1)
-            return true
-        else
-            return false
-    }
+    // const hasPermission = (permission_name) => {
+    //     let permissions = getUserPermissions()
+    //     let checkpermission = permissions?.filter(item => item.name === permission_name).length;
+    //     if (checkpermission == 1)
+    //         return true
+    //     else
+    //         return false
+    // }
 
-    const hasRole = (role_name) => {
-        let roles = getUserRoles()
-        let checkRole = roles?.filter(item => item.name === role_name)?.length;
-        if (checkRole == 1)
-            return true
-        else
-            return false
-    }
+    // const hasRole = (role_name) => {
+    //     let roles = getUserRoles()
+    //     let checkRole = roles?.filter(item => item.name === role_name)?.length;
+    //     if (checkRole == 1)
+    //         return true
+    //     else
+    //         return false
+    // }
 
     const removeDuplicates = (array) => {
         let uniq = {};
@@ -98,7 +111,7 @@ export default function ({ store, redirect }, inject) {
                 break;
             case 'INIT': return 'green'
                 break;
-                 case 'necessaire': return 'blue'
+            case 'necessaire': return 'blue'
                 break;
             case 'recu': return 'green'
                 break;
@@ -133,8 +146,8 @@ export default function ({ store, redirect }, inject) {
     inject('getUser', getUser)
     inject('getUserPermissions', getUserPermissions)
     inject('getUserRoles', getUserRoles)
-    inject('hasRole', hasRole)
-    inject('hasPermission', hasPermission)
+    // inject('hasRole', hasRole)
+    // inject('hasPermission', hasPermission)
     inject('getToken', getToken)
     inject('isLogged', isLogged)
     inject('loggout', loggout)

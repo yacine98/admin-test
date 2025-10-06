@@ -11,20 +11,14 @@
       },
       {
         "icon": "mdi-database-plus",
-        "href": "/projets/addProjet",
-        "title": "Nouvelle action",
-        "name": "manage-collects"
-      },
- 
-      {
-        "icon": "mdi-database-plus",
-        "href": "/soutiens/addSoutien",
-        "title": "Nouveau soutien",
-        "name": "manage-collects"
+        "href": "/tests",
+        "title": "Gérer les inscriptions",
+        "name": "manage-inscriptions",
+         "focus":true
       },
       {
         "icon": "mdi-cog-outline",
-        "href": "/parametres",
+        "href": "#",
         "title": "Paramétrage",
         "name": "manage-parameters",
         "focus":true

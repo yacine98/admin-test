@@ -21,11 +21,11 @@ export default {
     PageHeader,
     FormAddRole
   },
-  middleware: function ({ redirect, $hasPermission }) {
-    if (!$hasPermission('manage-parameters')) {
-      return redirect('/')
-    }
-  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-parameters')) {
+  //     return redirect('/')
+  //   }
+  // },
   mounted: function () {
     this.$store.dispatch('permissions/getList')
   },

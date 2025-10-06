@@ -8,7 +8,7 @@
               <v-card-text>
                 <Notification :message="message" :color="color" v-if="message" />
                 <div class="layout column align-center py-5">
-                  <img src="@/static/logo-mnv.png" alt="MNV CÔTE D'IVOIRE" width="150" height="">
+                  <img src="@/static/logo-plateforme.png" alt="PLATEFORME DE GESTION DES INSCRIPTIONS" width="150" height="">
                   <p class="flex my-8 custom-font-mark">Réinitialisation mot de passe</p>
                 </div>
                 <v-form class="row text-align-center pt-0" v-model="valid" ref="form" lazy-validation>
@@ -28,7 +28,7 @@
               </v-card-text>
             </v-card>
             <div class="layout column align-center py-5">
-              <span class="caption mr-1">&copy; {{ new Date().getFullYear() }} MNV ENERGIE CI, Tous droits réservés</span>
+              <span class="caption mr-1">&copy; {{ new Date().getFullYear() }} PLATEFORME DE GESTION DES INSCRIPTIONS, Tous droits réservés</span>
             </div>
           </v-flex>
         </v-layout>

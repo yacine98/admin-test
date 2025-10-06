@@ -23,23 +23,23 @@ export default function ({ store, redirect }, inject) {
         return allPermissions
     }
 
-    const hasPermission = (permission_name) => {
-        let permissions = getUserPermissions()
-        let checkpermission = permissions.filter(item => item.name === permission_name).length;
-        if (checkpermission == 1)
-            return true
-        else
-            return false
-    }
+    // const hasPermission = (permission_name) => {
+    //     let permissions = getUserPermissions()
+    //     let checkpermission = permissions.filter(item => item.name === permission_name).length;
+    //     if (checkpermission == 1)
+    //         return true
+    //     else
+    //         return false
+    // }
 
-    const hasRole = (role_name) => {
-        let roles = getUserRoles()
-        let checkRole = roles?.filter(item => item.name === role_name)?.length;
-        if (checkRole == 1)
-            return true
-        else
-            return false
-    }
+    // const hasRole = (role_name) => {
+    //     let roles = getUserRoles()
+    //     let checkRole = roles?.filter(item => item.name === role_name)?.length;
+    //     if (checkRole == 1)
+    //         return true
+    //     else
+    //         return false
+    // }
 
     const removeDuplicates = (array) => {
         let uniq = {};
@@ -84,8 +84,8 @@ export default function ({ store, redirect }, inject) {
 
     inject('getUserPermissions', getUserPermissions)
     inject('getUserRoles', getUserRoles)
-    inject('hasRole', hasRole)
-    inject('hasPermission', hasPermission)
+    // inject('hasRole', hasRole)
+    // inject('hasPermission', hasPermission)
     inject('getToken', getToken)
     inject('isLogged', isLogged)
     inject('loggout', loggout)

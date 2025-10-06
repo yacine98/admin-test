@@ -11,17 +11,6 @@ export default function ({ $axios, store ,redirect}, inject) {
             }
         }
     )
-    const maarchApi = $axios.create({
-          baseURL: process.env.baseUrlMaarch,
-          headers : {
-              common: {
-             /*  Accept: 'application/json', */
-              Authorization: 'Basic ' + Buffer.from('wsbayecheikh:12345678').toString('base64') ,
-
-              }
-          }
-      }
-    )
 
     mrvciApi.onRequest(config => {
         //Ajoute le token avant chaque request
@@ -117,7 +106,7 @@ export default function ({ $axios, store ,redirect}, inject) {
     inject('mrvciApi', mrvciApi)
     inject('mrvciFileApi', mrvciFileApi)
     inject('mrvciExportApi', mrvciFileApi)
-    inject('maarchApi', maarchApi)
+
 
 }
 

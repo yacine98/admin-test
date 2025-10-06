@@ -8,7 +8,7 @@
             :rules="rules.descriptionRules"></v-textarea>
         </v-col>
       </v-row>
-      <v-row  v-if="$hasPermission('edit-roles-permissions')" class="my-0">
+      <v-row class="my-0">
         <v-col md="12" lg="12" sm="12" class="my-0 py-0">
           <template>
             <v-card-title class="pl-0 pr-0">

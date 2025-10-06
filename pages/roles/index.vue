@@ -17,11 +17,11 @@ import PageHeader from '@/components/PageHeader';
 import ListRole from '@/components/roles/ListRole'
   export default {
     layout: "dashboard",
-    middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('manage-parameters')){
-        return redirect('/')
-      }
-    },
+    // middleware: function ({redirect,$hasPermission}) {
+    //   if(!$hasPermission('manage-parameters')){
+    //     return redirect('/')
+    //   }
+    // },
     components: {
       PageHeader,
       ListRole

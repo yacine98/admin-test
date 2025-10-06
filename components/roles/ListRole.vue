@@ -7,7 +7,7 @@
         </v-tabs>
       </div>
       <div class="ml-auto p-2">
-        <v-btn v-if="$hasPermission('add-roles')" depressed rounded color="primary" @click="goToAddRole">
+        <v-btn  depressed rounded color="primary" @click="goToAddRole">
           <v-icon left>
             mdi-plus
           </v-icon>

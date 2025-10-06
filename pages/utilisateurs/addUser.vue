@@ -21,11 +21,11 @@ export default {
     PageHeader,
     FormAddUser
   },
-  middleware: function ({ redirect, $hasPermission }) {
-    if (!$hasPermission('manage-users')) {
-      return redirect('/')
-    }
-  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-users')) {
+  //     return redirect('/')
+  //   }
+  // },
   data() {
     return {
       headerItems: [

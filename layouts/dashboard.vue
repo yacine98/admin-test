@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="drawer" app color="#fff" class="custom-nav" width="350">
       <v-sheet color="#fff" class="pa-2" style="height:80px;">
         <nuxt-link class="customTopNav flex text-sm-left" to="/">
-          <img src="@/static/logo-mnv.png" height="60" alt="MNV CÔTE D'IVOIRE">
+          <img src="@/static/logo-plateforme.png" height="60" alt="PLATEFORME DE GESTION DES INSCRIPTIONS">
         </nuxt-link>
       </v-sheet>
       <v-divider></v-divider>
@@ -48,42 +48,42 @@
 
       <v-divider></v-divider>
       <template>
-        <v-row justify="center" class="mt-0">
-          <v-expansion-panels accordion flat>
-            <v-expansion-panel v-for="(item, i) in listtypebannettes" :key="i" class="border-bottom-primary">
-              <v-expansion-panel-header class="d-flex align-center text-left width-100">
-                <div class="custom-expansion-title">
-                  <v-icon class="mr-2" color="secondary">mdi-folder-cog-outline</v-icon>
-                  <span class="text-primary">{{ $getNameBySlug(item.type) }}</span>
-                </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-list>
-                  <v-list-item-group color="primary">
-                    <v-list-item v-for="(bannette, j) in item.bannettes" :key="j" @click="selectBannette(bannette)" link
-                      active-class="highlighted" :class="bannette.href === $route.fullPath ? 'highlighted' : ''">
-                      <v-list-item-icon class="mr-3">
-                        <v-icon color="primary">{{ bannette.icon }}</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title>{{ bannette.title }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+      
+          
+       
+           <v-row justify="left" class="mt-0">
+  <v-col cols="12" md="12">
+    <v-list>
+      <v-list-item-group color="primary">
+        <v-list-item
+          v-for="(bannette, j) in bannettesData"
+          :key="j"
+          @click="selectBannette(bannette)"
+          link
+          active-class="highlighted"
+          :class="bannette.href === $route.fullPath ? 'highlighted' : ''"
+        >
+          <v-list-item-icon class="mr-3">
+            <v-icon color="primary">{{ bannette.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ bannette.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-col>
+</v-row>
+           
 
-
-        </v-row>
+   
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar elevation="0" app color="secondary" class="custom-header" height="80">
+    <v-app-bar elevation="0" app color="primary" class="custom-header" height="80">
       <v-app-bar-nav-icon @click="drawer = !drawer" color="#fff"></v-app-bar-nav-icon>
 
-      <v-toolbar-title class="custom-top-title pl-12">PLATEFORME MNV SECTEUR ÉNERGIE CÔTE D'IVOIRE</v-toolbar-title>
+      <v-toolbar-title class="custom-top-title pl-12">PLATEFORME DE GESTION DES INSCRIPTIONS</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-menu class="hidden-sm-and-down" offset-y origin="center center" transition="scale-transition">
@@ -91,7 +91,7 @@
           <v-btn fab small v-bind="attrs" v-on="on" outlined color="#fff" class="custom-border-btn">
             <v-icon>mdi-account-outline</v-icon>
           </v-btn>
-          <span class="text-white text-uppercase mr-2">{{ loggedInUser && loggedInUser.name }}</span>
+          <!-- <span class="text-white text-uppercase mr-2">{{ loggedInUser && loggedInUser.name }}</span> -->
         </template>
         <template>
           <div class="pop-user">
@@ -103,14 +103,14 @@
               </v-card>
               <v-card class="d-flex align-center flex-column" flat tile>
                 <div class="">
-                  <h5>{{ loggedInUser && loggedInUser.name }}</h5>
+                  <!-- <h5>{{ loggedInUser && loggedInUser.name }}</h5> -->
                 </div>
                 <div class="">
                   <p class="pb-0 mb-2">{{ loggedInUser && loggedInUser.email }}</p>
                 </div>
               </v-card>
               <v-card class="d-flex align-center flex-column mt-1" flat tile>
-                <v-btn text depressed @click="goToProfile" class="customTopNav pop-user-button flex text-sm-center">
+                <v-btn text depressed disabled @click="goToProfile" class="customTopNav pop-user-button flex text-sm-center">
                   Mon profil
                 </v-btn>
               </v-card>
@@ -138,7 +138,7 @@
     <v-footer height="auto" class="bg-grey pa-3">
       <span class="caption">&copy; {{ new Date().getFullYear() }}</span>
       <v-spacer></v-spacer>
-      <span class="caption mr-1">&copy; {{ new Date().getFullYear() }} MNV CÔTE D'IVOIRE</span>
+      <span class="caption mr-1">&copy; {{ new Date().getFullYear() }}PLATEFORME DE GESTION DES INSCRIPTIONS</span>
     </v-footer>
   </v-app>
 </template>
@@ -147,12 +147,12 @@
 import AppToolbar from '@/components/AppToolbar'
 
 export default {
-  middleware({ redirect, $getToken, $getUser, $isLogged, $loggout }) {
-    if ($getToken() == null || $getUser() == null || $isLogged() == null || $isLogged() == false) {
-      $loggout()
-      return redirect('/login')
-    }
-  },
+  // middleware({ redirect, $getToken, $getUser, $isLogged, $loggout }) {
+  //   if ($getToken() == null || $getUser() == null || $isLogged() == null || $isLogged() == false) {
+  //     $loggout()
+  //     return redirect('/login')
+  //   }
+  // },
   components: {
     AppToolbar
   },
@@ -167,6 +167,26 @@ export default {
     //this.loadSelectedBannette()
   },
   data: () => ({
+    bannettesData: [
+      {
+        id: 1,
+        title: "Tableau de bord",
+        icon: "mdi-view-dashboard",
+        href: "/dashboard"
+      },
+      {
+        id: 2,
+        title: "Gérer les inscriptions",
+        icon: "mdi-file-document-outline",
+        href: "/tests"
+      },
+      {
+        id: 3,
+        title: "Suivi des inscriptions",
+        icon: "mdi-history",
+        href: "/suivitests"
+      }
+    ],
     layout: [],
     loading: false,
     isAuthenticate: false,
@@ -196,17 +216,45 @@ export default {
       this.$router.push('/profil')
     },
 
-    getDetail(id) {
-      this.progress = true
-      this.$mrvciApi.$get('/me')
-        .then(async (response) => {
-          await localStorage.setItem('loggedInUser', JSON.stringify(response?.user))
-          this.transformBannettes(response.bannettes)
-        }).catch((error) => {
-          this.$toast.error(error?.response?.data?.message).goAway(5000)
-        }).finally(() => {
-          this.progress = false
-        })
+    async getDetail(id) {
+      const bannettesData = await [
+  {
+    "id": 1,
+    "name": "Tableau de bord",
+    "type": "dashboard",
+    "icon": "mdi-view-dashboard",
+    "endpoint": "/dashboard",
+    "clauses": ""
+  },
+  {
+    "id": 2,
+    "name": "Gérer les inscriptions",
+    "type": "tests",
+    "icon": "mdi-file-document-outline",
+    "endpoint": "/tests",
+    "clauses": "status=active"
+  },
+  {
+    "id": 3,
+    "name": "Suivi des inscriptions",
+    "type": "tests",
+    "icon": "mdi-history",
+    "endpoint": "/tests",
+    "clauses": "status=archived"
+  }
+]
+this.transformBannettes(bannettesData)
+      // this.progress = true
+      // this.$mrvciApi.$get('/me')
+      //   .then(async (response) => {
+      //     await localStorage.setItem('loggedInUser', JSON.stringify(response?.user))
+      //     this.transformBannettes(response.bannettes)
+      //   }).catch((error) => {
+      //     this.$toast.error(error?.response?.data?.message).goAway(5000)
+      //   }).finally(() => {
+      //     this.progress = false
+      //   })
+
     },
 
     transformBannettes(bannettesData) {
@@ -320,12 +368,12 @@ export default {
 }
 
 .highlighted {
-  color: #000 !important;
+  color: #7aacdd !important;
   background: #00833d1d;
 }
 
 .highlighted .v-list-item__icon .v-icon {
-  color: #075F30 !important;
+  color: #1865b3 !important;
 }
 
 .text-menu {

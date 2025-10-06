@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
   generate: {
@@ -8,10 +9,11 @@ export default {
   },
 
 
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
-    title: 'MNV CÔTE D\'IVOIRE',
+    title: 'PLATEFORME DE GESTION DES INSCRIPTIONS',
     htmlAttrs: {
       lang: 'fr'
     },
@@ -22,7 +24,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/logo-mnv.png' }
+      { rel: 'icon', type: 'image/x-icon', href: '/logo-plateforme.png' }
     ]
   },
 
@@ -34,11 +36,12 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/supabase.js',
     '~/plugins/api.js',
     '~/plugins/helpers.js',
     "~/plugins/vjsf",
-        "~/plugins/TiptapVuetify.js",
-        
+    "~/plugins/TiptapVuetify.js",
+
     { src: '~/plugins/TiptapVuetify', mode: 'client' },
   ],
 
@@ -59,7 +62,8 @@ export default {
   ],
 
   axios: {
-    baseURL: 'https://msas.ip3dev.com/api-mrv-ci/public/api',
+    // baseURL: 'https://msas.ip3dev.com/api-mrv-ci/public/api',
+    baseURL: 'https://localhost.com'
   },
 
   auth: {
@@ -109,14 +113,17 @@ export default {
       light: true,
       themes: {
         light: {
-          primary: "#FF7900", // orange
-          secondary: "#02622f", // vert
-          darksecondary: "#005b2a", // vert
-          accent: "#888795",
+          primary: "#244b76",        // Bleu foncé — pour les boutons principaux, barres d’en-tête
+          secondary: "#7aacdd",      // Bleu clair — pour les boutons secondaires, accents
+          darksecondary: "#244b76",  // Réutilisé pour cohérence visuelle
+          accent: "#888795",         // Gris neutre — reste utile pour les icônes ou fonds
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          success: colors.green.accent3,
+          hover: "#1e3d5f",       // pour les survols
+          background: "#f5f9fc",  // fond très clair bleuté
+
         }
       }
     }
@@ -125,12 +132,17 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vuetify/lib', /@koumoul/],
-       transpile: ['vuetify/lib', "tiptap-vuetify"],
+    transpile: ['vuetify/lib', "tiptap-vuetify"],
   },
 
   env: {
-    baseUrl: 'https://msas.ip3dev.com/api-mrv-ci/public/api',
-    siteUrl: 'https://msas.ip3dev.com/api-mrv-ci/public/storage/'
-    
+    // baseUrl: 'https://msas.ip3dev.com/api-mrv-ci/public/api',
+    //  siteUrl: 'https://msas.ip3dev.com/api-mrv-ci/public/storage/',
+    baseURL: 'https://localhost.com',
+    siteUrl: 'https://localhost.com'
+
+
+
+
   }
 }

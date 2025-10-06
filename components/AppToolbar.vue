@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app elevation="0" color="#fff">
     <nuxt-link class="customTopNav flex text-sm-left" to="/">
-      <img src="@/static/logo.png" width="170" alt="MNV CÔTE D'IVOIRE">
+      <img src="@/static/logo.png" width="170" alt="PLATEFORME DE GESTION DES INSCRIPTIONS">
     </nuxt-link>
 
     <nuxt-link class="customTopNav flex text-sm-center" v-for="(item, i) in layout" :key="i"
@@ -37,7 +37,7 @@
             </v-card>
             <v-card class="d-flex align-center flex-column" flat tile>
               <div class="">
-                <h5>{{ loggedInUser && loggedInUser.name }}</h5>
+                <!-- <h5>{{ loggedInUser && loggedInUser.name }}</h5> -->
               </div>
               <div class="">
                 <p class="pb-0 mb-2">{{ loggedInUser && loggedInUser.email }}</p>

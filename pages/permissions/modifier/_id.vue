@@ -22,11 +22,11 @@ import FormUpdatePermission from '@/components/permissions/modifier/FormUpdatePe
       PageHeader,
       FormUpdatePermission
     },
-    middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('manage-parameters')){
-        return redirect('/')
-      }
-    },
+    // middleware: function ({redirect,$hasPermission}) {
+    //   if(!$hasPermission('manage-parameters')){
+    //     return redirect('/')
+    //   }
+    // },
     data () {
       return {
         headerItems: [

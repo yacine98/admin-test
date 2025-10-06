@@ -34,7 +34,7 @@ export default {
     return {
       headerItems: [
         {
-          text: 'Données d\'activités',
+          text: 'Données tests',
           disabled: false,
           to: '/tests',
           exact: true

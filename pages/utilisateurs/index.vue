@@ -17,11 +17,11 @@ import TableUser from '@/components/utilisateurs/TableUser'
 
 export default {
   layout: "dashboard",
-  middleware: function ({ redirect, $hasPermission }) {
-    if (!$hasPermission('manage-users')) {
-      return redirect('/')
-    }
-  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-users')) {
+  //     return redirect('/')
+  //   }
+  // },
   components: {
     TableUser
   },

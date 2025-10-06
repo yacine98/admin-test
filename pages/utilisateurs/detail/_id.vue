@@ -32,11 +32,11 @@ export default {
     InfoUtilisateur,
     ActionsUtilisateur
   },
-  middleware: function ({ redirect, $hasPermission }) {
-    if (!$hasPermission('manage-users')) {
-      return redirect('/')
-    }
-  },
+  // middleware: function ({ redirect, $hasPermission }) {
+  //   if (!$hasPermission('manage-users')) {
+  //     return redirect('/')
+  //   }
+  // },
   data() {
     return {
       headerItems: [
