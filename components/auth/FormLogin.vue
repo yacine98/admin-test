@@ -40,15 +40,10 @@
     </v-col>
     <v-col cols="7" v-if="screenWidth > 800" class="d-flex flex-column justify-center position-relative">
       <!-- Image à droite avec texte superposé -->
-      <!-- <img class="full-height" width="100%" height="100%" src="@/static/background.jpg"> -->
-      <h3 class="text-left custom-right-title position-absolute" style="top: 0%; color: #FF7900;">SECTEUR ÉNERGIE CÔTE
+      <!-- <img class="full-height" width="100%" height="100%" src="@/static/background.mnv"> -->
+      <h3 class="text-left custom-right-title position-absolute" style="top: 0%; color: #FF7900;">PLATEFORME DE GESTION DES INSCRIPTIONS
         D'IVOIRE</h3>
-      <p class="text-left custom-paragraph position-absolute" style="top: 5%; color: black;">Dans le cadre de la lutte
-        contre les changements climatiques, la Côte d'Ivoire s'est engagée à réduire ses émissions de gaz à effet de
-        serre
-        afin de stabiliser l'augmentation de la température terrestre à 2 °C à travers son engagement à l'Accord de
-        Paris de
-        2015.</p>
+      <p class="text-left custom-paragraph position-absolute" style="top: 5%; color: black;">Dans le cadre de la modernisation des services éducatifs, notre plateforme facilite l'inscription des élèves en ligne en garantissant la transparence, la traçabilité et l'accessibilité pour tous. Elle s'inscrit dans une démarche inclusive visant à renforcer la digitalisation des processus administratifs et à simplifier les échanges entre établissements et apprenants.</p>
     </v-col>
   </div>
 </template>
