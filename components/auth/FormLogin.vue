@@ -110,7 +110,7 @@ async login() {
     return;
   }
 
-  // Redirection directe sans vérification
+  // Redirection directe sans aucune vérification
   this.$router.push('/tests');
   this.loading = false;
 }
