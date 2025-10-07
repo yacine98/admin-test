@@ -34,7 +34,7 @@ export default {
     return {
       headerItems: [
         {
-          text: 'Données tests',
+          text: 'Liste des élèves',
           disabled: false,
           to: '/suivitests',
           exact: true
