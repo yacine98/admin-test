@@ -6,24 +6,15 @@ export default function ({ store, redirect }, inject) {
         return localStorage.getItem('mrvciToken')
     }
 
-    const getUser = () => {
-        const fakeUser = {
-            firstname: "Yacine",
-            lastname: "Dia",
-            id: "123456",
-            email: "yacine.dia@example.com",
-            token: "abc123xyz789"
-        };
+   const getUser = () => {
+  const storedUser = localStorage.getItem('user');
+  return storedUser ? JSON.parse(storedUser) : null;
+};
 
-        // Stocker l'utilisateur fictif dans le localStorage
-        localStorage.setItem('loggedInUser', JSON.stringify(fakeUser));
-
-        return JSON.parse(localStorage.getItem('loggedInUser'));
-    }
-
-    const isLogged = () => {
-        return JSON.parse(localStorage.getItem('isAuthenticated'))
-    }
+ const isLogged = () => {
+  const user = localStorage.getItem('user');
+  return !!user; // renvoie true si l'utilisateur est connecté
+}
 
     const getUserRoles = () => {
         return getUser()?.roles

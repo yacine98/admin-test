@@ -25,11 +25,11 @@ export default {
     FormImportTest,
     ListDonneeTest,
   },
-  // middleware: function ({ redirect, $hasPermission }) {
-  //   if (!$hasPermission('manage-collects')) {
-  //     return redirect('/')
-  //   }
-  // },
+middleware: function ({ redirect }) {
+    if (!localStorage.getItem('user')) {
+      return redirect('/login')
+    }
+  },
   data() {
     return {
       headerItems: [

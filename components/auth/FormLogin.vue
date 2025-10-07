@@ -41,8 +41,15 @@
     <v-col cols="7" v-if="screenWidth > 800" class="d-flex flex-column justify-center position-relative">
       <!-- Image à droite avec texte superposé -->
       <!-- <img class="full-height" width="100%" height="100%" src="@/static/background.mnv"> -->
-      <h3 class="text-left custom-right-title position-absolute" style="top: 0%; color: black;">PLATEFORME DE GESTION DES INSCRIPTIONS</h3>
-      <p class="text-left custom-paragraph position-absolute" style="top: 5%; color: black;">Dans le cadre de la modernisation des services éducatifs, notre plateforme facilite l'inscription des élèves en ligne en garantissant la transparence, la traçabilité et l'accessibilité pour tous. Elle s'inscrit dans une démarche inclusive visant à renforcer la digitalisation des processus administratifs et à simplifier les échanges entre établissements et apprenants.</p>
+      <h3 class="text-left custom-right-title position-absolute" style="top: 0%; color: black;">PLATEFORME DE GESTION
+        DES
+        INSCRIPTIONS</h3>
+      <p class="text-left custom-paragraph position-absolute" style="top: 5%; color: black;">Dans le cadre de la
+        modernisation des services éducatifs, notre plateforme facilite l'inscription des élèves en ligne en
+        garantissant la
+        transparence, la traçabilité et l'accessibilité pour tous. Elle s'inscrit dans une démarche inclusive visant à
+        renforcer la digitalisation des processus administratifs et à simplifier les échanges entre établissements et
+        apprenants.</p>
     </v-col>
   </div>
 </template>
@@ -99,20 +106,48 @@ export default {
     togglePasswordVisibility() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     },
-async login() {
-  this.loading = true;
+    async login() {
+      this.loading = true;
 
-  // Optionnel : valider le formulaire
-  const validation = this.$refs.form.validate();
-  if (!validation) {
-    this.loading = false;
-    return;
-  }
+      const validation = this.$refs.form.validate();
+      if (!validation) {
+        this.loading = false;
+        return;
+      }
 
-  // Redirection directe sans aucune vérification
-  this.$router.push('/tests');
-  this.loading = false;
-}
+      try {
+        const supabase = this.$supabase;
+
+        const { data: users, error } = await supabase
+          .from('utilisateurs')
+          .select('*')
+          .eq('username', this.model.username)
+          .eq('password', this.model.password)
+          .limit(1);
+
+        if (error || !users || users.length === 0) {
+          this.$toast.error("Identifiant ou mot de passe incorrect").goAway(5000);
+          this.loading = false;
+          return;
+        }
+
+        const user = users[0];
+
+        // Stocker les infos dans localStorage
+        localStorage.setItem('user', JSON.stringify({
+          id: user.id,
+          username: user.username,
+          role: user.role || 'user'
+        }));
+
+        this.$router.push('/tests');
+      } catch (err) {
+        console.error('Erreur login:', err);
+        this.$toast.error("Erreur serveur");
+      } finally {
+        this.loading = false;
+      }
+    }
   }
 }
 </script>
@@ -126,11 +161,14 @@ async login() {
   background-position: right;
   overflow: hidden;
 }
+
 .custom-btn {
-  border-radius: 0px; /* Supprime les angles arrondis */
+  border-radius: 0px;
+  /* Supprime les angles arrondis */
   font-size: 14px !important;
   font-weight: bold !important;
 }
+
 .full-height {
   height: 100vh;
   overflow: hidden;

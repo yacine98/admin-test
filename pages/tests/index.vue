@@ -13,16 +13,16 @@ import TableTest from "@/components/tests/TableTest";
 
 export default {
   layout: "dashboard",
-  // middleware: function ({ redirect, $hasPermission }) {
-  //   if (!$hasPermission('manage-collects')) {
-  //     return redirect('/')
-  //   }
-  // },
+ middleware: 'auth',
   components: {
     PageHeader,
     TableTest
   },
-
+      middleware: function ({ redirect }) {
+    if (!localStorage.getItem('user')) {
+      return redirect('/login')
+    }
+  },
   data() {
     return {
       headerItems: [

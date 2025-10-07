@@ -2,6 +2,20 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
+        <v-row class="mb-4 justify-end">
+          <v-col cols="auto">
+            <v-btn color="primary" dark @click="exportCartesFiltered">
+              <v-icon left>mdi-card-account-details</v-icon>
+              Exporter les cartes
+            </v-btn>
+          </v-col>
+          <v-col cols="auto">
+            <v-btn color="secondary" dark @click="exportBilletsFiltered">
+              <v-icon left>mdi-file-pdf-box</v-icon>
+              Exporter les billets
+            </v-btn>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="12">
             <v-text-field v-model="search" label="Recherche par mot-clé (prénom, nom, IEN)" clearable outlined dense
@@ -9,17 +23,12 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="6">
             <v-select v-model="filterClasseId" :items="classesDisponibles" item-text="libelle" item-value="id"
               label="Filtrer par classe" clearable outlined dense background-color="white" />
           </v-col>
 
-          <v-col cols="12" md="4">
-            <v-select v-model="filterPayed" :items="['Inscrits', 'Non inscrits']" label="Filtrer par statut de paiement"
-              clearable outlined dense background-color="white" />
-          </v-col>
-
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="6">
             <v-menu ref="menu" v-model="menuDate" :close-on-content-click="false" transition="scale-transition"
               offset-y>
               <template v-slot:activator="{ on, attrs }">
@@ -55,14 +64,14 @@
     </v-row>
     <!-- Cartes scolaires invisibles -->
     <div style="position: absolute; left: -9999px;">
-      <carte-scolaire v-for="eleve in listtests" :key="'carte-' + eleve.numero_dossier" :eleve="eleve"
-        :ref="'carte-' + eleve.numero_dossier" />
+      <carte-scolaire v-for="eleve in listtests" :key="'carte-' + eleve.ien" :eleve="eleve"
+        :ref="'carte-' + eleve.ien" />
     </div>
 
     <!-- Billets invisibles pour l'export -->
     <div style="position: absolute; left: -9999px;">
-      <billet-template v-for="eleve in listtests" :key="eleve.numero_dossier" :eleve="eleve"
-        :ref="'billet-' + eleve.numero_dossier"></billet-template>
+      <billet-template v-for="eleve in listtests" :key="eleve.ien" :eleve="eleve"
+        :ref="'billet-' + eleve.ien"></billet-template>
     </div>
   </v-container>
 </template>
@@ -112,25 +121,81 @@ export default {
   watch: {
     filterClasseId: 'applyFilters',
     filterPayed: 'applyFilters',
-    filterDate: 'applyFilters'
+    filterDate: 'applyFilters',
+    search: 'applyFilters'
   },
 
   methods: {
-    applyFilters() {
-      this.filteredTests = this.listtests.filter(eleve => {
-        const matchClasse = this.filterClasseId ? eleve.classe_id === this.filterClasseId : true;
-        const matchPayed = this.filterPayed === 'Inscrits' ? eleve.payed === true
-          : this.filterPayed === 'Non inscrits' ? eleve.payed === false
-            : true;
-        const matchDate = this.filterDate ? eleve.payed_at && eleve.payed_at.startsWith(this.filterDate) : true;
+    async exportCartesFiltered() {
+      await this.$nextTick();
 
-        return matchClasse && matchPayed && matchDate;
-      });
+      for (const eleve of this.filteredTests) {
+        const carteRef = this.$refs['carte-' + eleve.ien];
+        if (!carteRef || !carteRef[0]) continue;
+
+        const element = carteRef[0].$el;
+        const canvas = await html2canvas(element, { scale: 2 });
+
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'pt',
+          format: [420, 595] // A6
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, 420, 595);
+        pdf.save(`${eleve.prenom}_${eleve.nom}_carte.pdf`);
+      }
     },
+
+    async exportBilletsFiltered() {
+      await this.$nextTick();
+
+      for (const eleve of this.filteredTests) {
+        const billetRef = this.$refs['billet-' + eleve.ien];
+        if (!billetRef || !billetRef[0]) continue;
+
+        const element = billetRef[0].$el;
+        const canvas = await html2canvas(element, { scale: 2 });
+
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'pt',
+          format: 'a4'
+        });
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`${eleve.prenom}_${eleve.nom}_billet.pdf`);
+      }
+    },
+ applyFilters() {
+  const keyword = this.search?.toLowerCase().trim();
+
+  this.filteredTests = this.listtests.filter(eleve => {
+    const matchClasse = this.filterClasseId ? eleve.classe_id === this.filterClasseId : true;
+    const matchPayed = this.filterPayed === 'Inscrits' ? eleve.payed === true
+      : this.filterPayed === 'Non inscrits' ? eleve.payed === false
+        : true;
+    const matchDate = this.filterDate ? eleve.payed_at && eleve.payed_at.startsWith(this.filterDate) : true;
+
+    const matchKeyword = keyword
+      ? eleve.prenom?.toLowerCase().includes(keyword) ||
+        eleve.nom?.toLowerCase().includes(keyword) ||
+        eleve.ien?.toLowerCase().includes(keyword)
+      : true;
+
+    return matchClasse && matchPayed && matchDate && matchKeyword;
+  });
+},
 
     async getList() {
       try {
         const supabase = this.$supabase;
+
         // Récupérer les classes
         const { data: classes, error: errorClasses } = await supabase
           .from('classes')
@@ -142,16 +207,19 @@ export default {
           return;
         }
         this.classesDisponibles = classes;
-        // Récupérer les élèves
+
+        // Récupérer uniquement les élèves qui ont payé
         const { data: eleves, error: errorEleves } = await supabase
           .from('eleves')
           .select('*')
+          .eq('payed', true) // ✅ filtre ici
           .order('nom', { ascending: true });
 
         if (errorEleves) {
           console.error('Erreur chargement élèves:', errorEleves.message);
           return;
         }
+
         this.listtests = eleves || [];
         this.applyFilters();
       } catch (err) {
@@ -162,7 +230,7 @@ export default {
       await this.$nextTick();
 
       for (const eleve of this.listtests) {
-        const carteRef = this.$refs['carte-' + eleve.numero_dossier];
+        const carteRef = this.$refs['carte-' + eleve.ien];
         if (!carteRef || !carteRef[0]) continue;
 
         const element = carteRef[0].$el;
@@ -184,7 +252,7 @@ export default {
       await this.$nextTick(); // attend que tous les billets soient rendus
 
       for (const eleve of this.listtests) {
-        const billetRef = this.$refs['billet-' + eleve.numero_dossier];
+        const billetRef = this.$refs['billet-' + eleve.ien];
         if (!billetRef || !billetRef[0]) continue;
 
         const element = billetRef[0].$el;

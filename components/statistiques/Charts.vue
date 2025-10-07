@@ -8,7 +8,7 @@
                 <v-row>
                     <v-col md="6" lg="6" sm="12">
                         <v-card color="#fff" flat class="ma-2 ml-0">
-                            <v-card-title>Nombre d'élèves par classe</v-card-title>
+                            <v-card-title>Nombre d'élèves inscrits par classe</v-card-title>
                             <div class="pa-5">
                                 <BarChart :data="barChartData1" :options="barChartOptions1" :styles="{
                                     height: '250px',

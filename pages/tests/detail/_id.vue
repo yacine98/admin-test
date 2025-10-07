@@ -25,6 +25,11 @@ import InfoTest from '@/components/tests/detail/InfoTest';
 import ActionsTest from '@/components/tests/detail/ActionsTest';
 export default {
   layout: "dashboard",
+  middleware: function ({ redirect }) {
+    if (!localStorage.getItem('user')) {
+      return redirect('/login')
+    }
+  },
   components: {
     LeftMenu,
     PageHeader,

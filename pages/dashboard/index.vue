@@ -30,6 +30,11 @@ export default {
     Charts,
     Chiffres,
   },
+  middleware: function ({ redirect }) {
+    if (!localStorage.getItem('user')) {
+      return redirect('/login')
+    }
+  },
   mounted: async function () {
 
   },

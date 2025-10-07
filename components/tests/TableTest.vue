@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
-             <v-row class="mb-0">
+        <v-row class="mb-0">
           <v-col class="text-right mb-2">
             <v-btn color="primary" @click="goToImportTest">
               <v-icon left>mdi-cloud-upload</v-icon>Importer la liste des élèves
@@ -63,14 +63,14 @@
     </v-row>
     <!-- Cartes scolaires invisibles -->
     <div style="position: absolute; left: -9999px;">
-      <carte-scolaire v-for="eleve in listtests" :key="'carte-' + eleve.numero_dossier" :eleve="eleve"
-        :ref="'carte-' + eleve.numero_dossier" />
+      <carte-scolaire v-for="eleve in listtests" :key="'carte-' + eleve.ien" :eleve="eleve"
+        :ref="'carte-' + eleve.ien" />
     </div>
 
     <!-- Billets invisibles pour l'export -->
     <div style="position: absolute; left: -9999px;">
-      <billet-template v-for="eleve in listtests" :key="eleve.numero_dossier" :eleve="eleve"
-        :ref="'billet-' + eleve.numero_dossier"></billet-template>
+      <billet-template v-for="eleve in listtests" :key="eleve.ien" :eleve="eleve"
+        :ref="'billet-' + eleve.ien"></billet-template>
     </div>
   </v-container>
 </template>
@@ -119,11 +119,14 @@ export default {
   watch: {
     filterClasseId: 'applyFilters',
     filterPayed: 'applyFilters',
-    filterDate: 'applyFilters'
+    filterDate: 'applyFilters',
+    search: 'applyFilters'
   },
 
   methods: {
     applyFilters() {
+      const keyword = this.search?.toLowerCase().trim();
+
       this.filteredTests = this.listtests.filter(eleve => {
         const matchClasse = this.filterClasseId ? eleve.classe_id === this.filterClasseId : true;
         const matchPayed = this.filterPayed === 'Inscrits' ? eleve.payed === true
@@ -131,7 +134,13 @@ export default {
             : true;
         const matchDate = this.filterDate ? eleve.payed_at && eleve.payed_at.startsWith(this.filterDate) : true;
 
-        return matchClasse && matchPayed && matchDate;
+        const matchKeyword = keyword
+          ? eleve.prenom?.toLowerCase().includes(keyword) ||
+          eleve.nom?.toLowerCase().includes(keyword) ||
+          eleve.ien?.toLowerCase().includes(keyword)
+          : true;
+
+        return matchClasse && matchPayed && matchDate && matchKeyword;
       });
     },
 
@@ -169,7 +178,7 @@ export default {
       await this.$nextTick();
 
       for (const eleve of this.listtests) {
-        const carteRef = this.$refs['carte-' + eleve.numero_dossier];
+        const carteRef = this.$refs['carte-' + eleve.ien];
         if (!carteRef || !carteRef[0]) continue;
 
         const element = carteRef[0].$el;
@@ -191,7 +200,7 @@ export default {
       await this.$nextTick(); // attend que tous les billets soient rendus
 
       for (const eleve of this.listtests) {
-        const billetRef = this.$refs['billet-' + eleve.numero_dossier];
+        const billetRef = this.$refs['billet-' + eleve.ien];
         if (!billetRef || !billetRef[0]) continue;
 
         const element = billetRef[0].$el;

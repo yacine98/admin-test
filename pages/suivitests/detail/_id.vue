@@ -31,7 +31,11 @@ export default {
     InfoTest,
     ActionsTest
   },
- 
+ middleware: function ({ redirect }) {
+    if (!localStorage.getItem('user')) {
+      return redirect('/login')
+    }
+  },
   data() {
     return {
       headerItems: [

@@ -106,7 +106,7 @@
                   <!-- <h5>{{ loggedInUser && loggedInUser.name }}</h5> -->
                 </div>
                 <div class="">
-                  <p class="pb-0 mb-2">{{ loggedInUser && loggedInUser.email }}</p>
+                  <p class="pb-0 mb-2">{{ loggedInUser && loggedInUser.username }}</p>
                 </div>
               </v-card>
               <v-card class="d-flex align-center flex-column mt-1" flat tile>
@@ -196,20 +196,9 @@ export default {
     selectedBannette: null
   }),
   methods: {
-    async logout() {
-      try {
-        this.loading = true
-        await this.$mrvciApi.$post('/logout').then(async (response) => {
-          // Nettoyer le localStorage lors de la déconnexion
-          localStorage.removeItem('selectedBannette')
-          this.$loggout()
-          this.loading = false
-          this.$router.push('/login')
-        })
-      } catch (e) {
-        this.$store.dispatch('toast/getMessage', { type: 'error', text: e })
-        this.loading = false
-      }
+  async logout() {
+      await localStorage.removeItem('user');
+      this.$router.push('/login');
     },
 
     goToProfile() {

@@ -13,11 +13,11 @@ import TableTest from "@/components/suivitests/TableTest";
 
 export default {
   layout: "dashboard",
-  // middleware: function ({ redirect, $hasPermission }) {
-  //   if (!$hasPermission('manage-collects')) {
-  //     return redirect('/')
-  //   }
-  // },
+middleware: function ({ redirect }) {
+    if (!localStorage.getItem('user')) {
+      return redirect('/login')
+    }
+  },
   components: {
     PageHeader,
     TableTest

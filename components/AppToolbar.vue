@@ -83,17 +83,8 @@ export default {
   },
   methods: {
     async logout() {
-      try {
-        this.loading = true;
-        await this.$mrvciApi.$post('/logout').then(async (response) => {
-          this.$loggout()
-          this.loading = false;
-          this.$router.push('/login');
-        })
-      } catch (e) {
-        this.$store.dispatch('toast/getMessage', { type: 'error', text: e })
-        this.loading = false;
-      }
+      await localStorage.removeItem('user');
+      this.$router.push('/login');
     },
     goToProfile() {
       this.$router.push('/utilisateurs/detail/' + this.loggedInUser.id);
