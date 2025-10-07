@@ -2,15 +2,21 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
-        <v-row class="mb-4">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field v-model="search" label="Recherche par mot-clé (prénom, nom, IEN)" clearable outlined dense
+              background-color="white" />
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12" md="4">
             <v-select v-model="filterClasseId" :items="classesDisponibles" item-text="libelle" item-value="id"
-              label="Filtrer par classe" clearable outlined background-color="white" />
+              label="Filtrer par classe" clearable outlined dense background-color="white" />
           </v-col>
 
           <v-col cols="12" md="4">
             <v-select v-model="filterPayed" :items="['Inscrits', 'Non inscrits']" label="Filtrer par statut de paiement"
-              clearable outlined background-color="white" />
+              clearable outlined dense background-color="white" />
           </v-col>
 
           <v-col cols="12" md="4">
@@ -18,7 +24,7 @@
               offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field v-model="filterDate" label="Filtrer par date de paiement" readonly v-bind="attrs"
-                  v-on="on" clearable outlined background-color="white" />
+                  v-on="on" clearable outlined dense background-color="white" />
               </template>
               <v-date-picker v-model="filterDate" @input="menuDate = false" />
             </v-menu>
@@ -125,7 +131,6 @@ export default {
     async getList() {
       try {
         const supabase = this.$supabase;
-
         // Récupérer les classes
         const { data: classes, error: errorClasses } = await supabase
           .from('classes')
@@ -136,9 +141,7 @@ export default {
           console.error('Erreur chargement classes:', errorClasses.message);
           return;
         }
-
         this.classesDisponibles = classes;
-
         // Récupérer les élèves
         const { data: eleves, error: errorEleves } = await supabase
           .from('eleves')
@@ -149,7 +152,6 @@ export default {
           console.error('Erreur chargement élèves:', errorEleves.message);
           return;
         }
-
         this.listtests = eleves || [];
         this.applyFilters();
       } catch (err) {

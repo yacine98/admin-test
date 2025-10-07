@@ -2,26 +2,52 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
-        <v-row class="mb-0">
+             <v-row class="mb-0">
           <v-col class="text-right mb-2">
             <v-btn color="primary" @click="goToImportTest">
               <v-icon left>mdi-cloud-upload</v-icon>Importer la liste des élèves
             </v-btn>
           </v-col>
-          <!-- <v-col class="text-left">
-            <v-btn color="primary" @click="exportPDF">
-              <v-icon left>mdi-cloud-download</v-icon>Exporter les billets
-            </v-btn>
-          </v-col> -->
-          <!-- <v-col class="text-left">
-            <v-btn color="primary" @click="exportCartes">
-              <v-icon left>mdi-cloud-download</v-icon>Exporter les cartes
-            </v-btn>
-          </v-col> -->
         </v-row>
 
+        <v-row>
+          <v-col cols="12">
+            <v-text-field v-model="search" label="Recherche par mot-clé (prénom, nom, IEN)" clearable dense outlined
+              background-color="white" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-select v-model="filterClasseId" :items="classesDisponibles" item-text="libelle" item-value="id"
+              label="Filtrer par classe" clearable dense outlined background-color="white" />
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-select v-model="filterPayed" :items="['Inscrits', 'Non inscrits']" label="Filtrer par statut de paiement"
+              clearable outlined dense background-color="white" />
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-menu ref="menu" v-model="menuDate" :close-on-content-click="false" transition="scale-transition"
+              offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field v-model="filterDate" label="Filtrer par date de paiement" readonly v-bind="attrs"
+                  v-on="on" clearable outlined dense background-color="white" />
+              </template>
+              <v-date-picker v-model="filterDate" @input="menuDate = false" />
+            </v-menu>
+          </v-col>
+        </v-row>
+        <v-row class="justify-end mb-2">
+          <v-col cols="auto">
+            <v-chip color="primary" text-color="white" label>
+              <v-icon left small>mdi-account-group</v-icon>
+              {{ filteredTests.length }} élève{{ filteredTests.length > 1 ? 's' : '' }}
+            </v-chip>
+          </v-col>
+        </v-row>
         <v-card class="pa-4" flat style="overflow-x: auto;">
-          <v-data-table :headers="headers" :items="listtests" :items-per-page="perpage" :search="search"
+          <v-data-table :headers="headers" :items="filteredTests" :items-per-page="perpage" :search="search"
             class="elevation-0 mt-4" @click:row="visualiserItem" :style="'cursor: pointer'">
             <template v-slot:item.actions="{ item }">
               <v-btn small @click="visualiserItem(item)">Détail</v-btn>
@@ -54,7 +80,6 @@ import BilletTemplate from '@/components/tests/templates/BilletTemplate.vue'
 import CarteScolaire from '@/components/tests/templates/CarteScolaire.vue'
 
 
-
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 
@@ -68,6 +93,12 @@ export default {
       search: '',
       perpage: 10,
       listtests: [],
+      filteredTests: [],
+      filterClasseId: null,
+      filterPayed: null,
+      filterDate: null,
+      menuDate: false,
+      classesDisponibles: [],
       headers: [
         { text: 'IEN', value: 'ien' },
         { text: 'Prénom(s)', value: 'prenom' },
@@ -79,39 +110,59 @@ export default {
         { text: 'Inscrit', value: 'payed' },
         { text: 'Actions', value: 'actions', sortable: false }
       ]
+
     }
   },
   mounted() {
     this.getList()
   },
-  methods: {
+  watch: {
+    filterClasseId: 'applyFilters',
+    filterPayed: 'applyFilters',
+    filterDate: 'applyFilters'
+  },
 
+  methods: {
+    applyFilters() {
+      this.filteredTests = this.listtests.filter(eleve => {
+        const matchClasse = this.filterClasseId ? eleve.classe_id === this.filterClasseId : true;
+        const matchPayed = this.filterPayed === 'Inscrits' ? eleve.payed === true
+          : this.filterPayed === 'Non inscrits' ? eleve.payed === false
+            : true;
+        const matchDate = this.filterDate ? eleve.payed_at && eleve.payed_at.startsWith(this.filterDate) : true;
+
+        return matchClasse && matchPayed && matchDate;
+      });
+    },
 
     async getList() {
       try {
-        const supabase = await this.$supabase
+        const supabase = this.$supabase;
+        // Récupérer les classes
+        const { data: classes, error: errorClasses } = await supabase
+          .from('classes')
+          .select('id, libelle')
+          .order('libelle', { ascending: true });
 
-        const { data, error } = await supabase
+        if (errorClasses) {
+          console.error('Erreur chargement classes:', errorClasses.message);
+          return;
+        }
+        this.classesDisponibles = classes;
+        // Récupérer les élèves
+        const { data: eleves, error: errorEleves } = await supabase
           .from('eleves')
           .select('*')
-          .order('nom', { ascending: true }) // optionnel
+          .order('nom', { ascending: true });
 
-        if (error) {
-          console.error('Erreur Supabase:', error.message)
-          this.$store.dispatch('toast/getMessage', {
-            type: 'error',
-            text: 'Erreur lors du chargement des élèves'
-          })
-          return
+        if (errorEleves) {
+          console.error('Erreur chargement élèves:', errorEleves.message);
+          return;
         }
-
-        this.listtests = data || []
+        this.listtests = eleves || [];
+        this.applyFilters();
       } catch (err) {
-        console.error('Erreur getList:', err)
-        this.$store.dispatch('toast/getMessage', {
-          type: 'error',
-          text: 'Erreur inattendue'
-        })
+        console.error('Erreur getList:', err);
       }
     },
     async exportCartes() {

@@ -1,17 +1,25 @@
 <template>
   <div>
-         <v-row class="mb-0">
-          <v-col class="text-right mb-2">
-            <v-btn color="#2e7d32" class="mt-4 text-white" @click="payerEtExporter">
-      <v-icon left>mdi-cash</v-icon>
-      {{ detailTest.payed ? 'Générer la carte et le billet' : 'Payer' }}
-    </v-btn>
+    <v-row class="mb-0">
+      <v-col class="text-right mb-2">
+        <v-btn v-if="!detailTest.payed && isRetrieved" color="#2e7d32" class="mt-4 text-white" @click="payerEtExporter">
+          <v-icon left>mdi-cash</v-icon>
+          Payer
+        </v-btn>
+        <v-btn v-if="detailTest.payed && isRetrieved" color="#2e7d32" class="mt-4 text-white" @click="exportCarte">
+          <v-icon left>mdi-cash</v-icon>
+          Télécharger la carte
+        </v-btn>
+        <v-btn v-if="detailTest.payed && isRetrieved" color="#2e7d32" class="mt-4 text-white" @click="exportBillet">
+          <v-icon left>mdi-cash</v-icon>
+          Télécharger le billet
+        </v-btn>
 
-          </v-col>
-         
-        </v-row>
+      </v-col>
 
-   
+    </v-row>
+
+
 
     <div v-if="showCamera" class="mt-4">
       <video ref="video" autoplay playsinline width="300" height="225"></video>
@@ -121,6 +129,7 @@ export default {
   }),
   data() {
     return {
+      isRetrieved: false,
       id: this.$route.query.id,
       showCamera: false,
       photoBlob: null,
@@ -145,7 +154,7 @@ export default {
 
         if (error) {
           console.error('Erreur mise à jour paiement:', error.message);
-          this.$toast.error('Échec de l’enregistrement du paiement').goAway(5000);
+          this.$toast.error('Échec de l\'enregistrement du paiement').goAway(5000);
           return;
         }
 
@@ -153,9 +162,7 @@ export default {
         await this.getDetail(this.id);
       }
 
-      // Exporter les documents
-      await this.exportCarte();
-      await this.exportBillet();
+     
     },
     async exportBillet() {
       await this.$nextTick()
@@ -214,40 +221,40 @@ export default {
       await this.uploadPhotoToSupabase(blob)
     },
 
- async uploadPhotoToSupabase(blob) {
-  const supabase = this.$supabase;
-  const fileName = `eleve-${this.id}-${Date.now()}.jpg`;
+    async uploadPhotoToSupabase(blob) {
+      const supabase = this.$supabase;
+      const fileName = `eleve-${this.id}-${Date.now()}.jpg`;
 
-  const { data, error } = await supabase.storage
-    .from('photos-eleves')
-    .upload(fileName, blob, {
-      contentType: 'image/jpeg'
-    });
+      const { data, error } = await supabase.storage
+        .from('photos-eleves')
+        .upload(fileName, blob, {
+          contentType: 'image/jpeg'
+        });
 
-  if (error) {
-    console.error('Erreur upload:', error.message);
-    this.$toast.error('Échec de l\'envoi de la photo').goAway(5000);
-    return;
-  }
+      if (error) {
+        console.error('Erreur upload:', error.message);
+        this.$toast.error('Échec de l\'envoi de la photo').goAway(5000);
+        return;
+      }
 
-  const publicUrl = `https://gpadxlfxuxzpbpkfippw.supabase.co/storage/v1/object/public/photos-eleves/${fileName}`;
+      const publicUrl = `https://gpadxlfxuxzpbpkfippw.supabase.co/storage/v1/object/public/photos-eleves/${fileName}`;
 
-  const { error: updateError } = await supabase
-    .from('eleves')
-    .update({ photo_url: publicUrl })
-    .eq('id', this.id);
+      const { error: updateError } = await supabase
+        .from('eleves')
+        .update({ photo_url: publicUrl })
+        .eq('id', this.id);
 
-  if (updateError) {
-    console.error('Erreur mise à jour élève:', updateError.message);
-    this.$toast.error('Échec de l’enregistrement de la photo').goAway(5000);
-    return;
-  }
+      if (updateError) {
+        console.error('Erreur mise à jour élève:', updateError.message);
+        this.$toast.error('Échec de l\'enregistrement de la photo').goAway(5000);
+        return;
+      }
 
-  // ✅ Mise à jour locale immédiate
-  await this.getDetail(this.id);
+      // ✅ Mise à jour locale immédiate
+      await this.getDetail(this.id);
 
-  this.$toast.success('Photo enregistrée avec succès').goAway(5000);
-},
+      this.$toast.success('Photo enregistrée avec succès').goAway(5000);
+    },
     retour() {
       this.$router.push('/tests');
     },
@@ -266,6 +273,9 @@ export default {
           this.$toast.error('Impossible de récupérer les détails de l\'élève').goAway(5000)
           return
         }
+        else{
+          this.isRetrieved=true
+        }
 
         // Envoie les données dans le store ou traite-les localement
         this.$store.dispatch('tests/getDetail', data)
@@ -282,7 +292,10 @@ export default {
     },
     async exportCarte() {
 
-
+      if(!this.detailTest.photo_url){
+        alert("Attention, vous n'avez pas encore pris de photo")
+        return
+      }
       await this.$nextTick()
 
       const refName = 'carte-' + this.detailTest.ien
